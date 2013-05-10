@@ -6,11 +6,11 @@ require 'guard/kitchen/version'
 Gem::Specification.new do |spec|
   spec.name          = "guard-kitchen"
   spec.version       = Guard::Kitchen::VERSION
-  spec.authors       = ["adamhjk"]
+  spec.authors       = ["Adam Jacob"]
   spec.email         = ["adam@opscode.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
-  spec.homepage      = ""
+  spec.description   = %q{Guard plugin for test kitchen}
+  spec.summary       = %q{Guard plugin for test kitchen}
+  spec.homepage      = "http://github.com/opscode/guard-kitchen"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
@@ -18,6 +18,9 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
+  spec.add_dependency "guard"
+  spec.add_dependency "mixlib-shellout"
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
+  spec.add_development_dependency "rspec"
 end

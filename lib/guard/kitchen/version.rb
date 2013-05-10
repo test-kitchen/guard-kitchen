@@ -1,5 +1,8 @@
+require 'guard'
+require 'guard/guard'
+
 module Guard
-  module Kitchen
+  class Kitchen < Guard
     VERSION = "0.0.1"
   end
 end
