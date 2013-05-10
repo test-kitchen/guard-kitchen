@@ -1,0 +1,9 @@
+guard 'kitchen' do
+  watch(%r{test/.+})
+  watch(%r{^recipes/(.+)\.rb$})
+  watch(%r{^attributes/(.+)\.rb$})
+  watch(%r{^files/(.+)})
+  watch(%r{^templates/(.+)})
+  watch(%r{^providers/(.+)\.rb})
+  watch(%r{^resources/(.+)\.rb})
+end
