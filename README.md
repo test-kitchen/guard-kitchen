@@ -1,6 +1,6 @@
 # Guard::Kitchen
 
-TODO: Write a gem description
+Uses test-kitchen to help you develop Chef cookbooks.
 
 ## Installation
 
@@ -18,7 +18,9 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+From within a cookbook:
+
+    $ guard init kitchen
 
 ## Contributing
 

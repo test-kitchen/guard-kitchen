@@ -82,7 +82,7 @@ module Guard
         end
       end
       if suites.length > 0
-        ::Guard::UI.info("Guard::Kitchen is running suites: #{suites.keys.join(' ')}")
+        ::Guard::UI.info("Guard::Kitchen is running suites: #{suites.keys.join(', ')}")
         cmd = Mixlib::ShellOut.new("kitchen verify '(#{suites.keys.join('|')})-.+' -p")
         cmd.live_stream = STDOUT
         cmd.run_command
@@ -109,7 +109,6 @@ module Guard
           ::Guard::UI.info("Kitchen converge failed with #{e.to_s}")
           throw :task_has_failed
         end
-
       end
     end
   end
