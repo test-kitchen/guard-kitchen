@@ -22,7 +22,7 @@ module Guard
   class Kitchen < Guard
     def start
       ::Guard::UI.info("Guard::Kitchen is starting")
-      cmd = Mixlib::ShellOut.new("kitchen create")
+      cmd = Mixlib::ShellOut.new("kitchen create", :timeout => 10800)
       cmd.live_stream = STDOUT
       cmd.run_command
       begin
@@ -60,7 +60,7 @@ module Guard
 
     def run_all
       ::Guard::UI.info("Guard::Kitchen is running all tests")
-      cmd = Mixlib::ShellOut.new("kitchen verify")
+      cmd = Mixlib::ShellOut.new("kitchen verify", :timeout => 10800)
       cmd.live_stream = STDOUT
       cmd.run_command
       begin
@@ -83,7 +83,7 @@ module Guard
       end
       if suites.length > 0
         ::Guard::UI.info("Guard::Kitchen is running suites: #{suites.keys.join(', ')}")
-        cmd = Mixlib::ShellOut.new("kitchen verify '(#{suites.keys.join('|')})-.+' -p")
+        cmd = Mixlib::ShellOut.new("kitchen verify '(#{suites.keys.join('|')})-.+' -p", :timeout => 10800)
         cmd.live_stream = STDOUT
         cmd.run_command
         begin
@@ -97,7 +97,7 @@ module Guard
         end
       else
         ::Guard::UI.info("Guard::Kitchen is running converge for all suites")
-        cmd = Mixlib::ShellOut.new("kitchen converge")
+        cmd = Mixlib::ShellOut.new("kitchen converge", :timeout => 10800)
         cmd.live_stream = STDOUT
         cmd.run_command
         begin
