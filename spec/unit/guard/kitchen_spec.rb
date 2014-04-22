@@ -33,10 +33,28 @@ describe "Guard::Kitchen" do
   end
 
   describe "stop" do
-    it "yells at you to delete manually" do
-      Guard::UI.should_receive(:warning).with('Guard::Kitchen cannot stop for you, due to strange bug.')
-      Guard::UI.should_receive(:warning).with("You likely want to run 'kitchen destroy'")
+    before(:each) do
+      @shellout = double('shellout')
+      @shellout.stub(:live_stream=).with(STDOUT)
+      @shellout.stub(:run_command)
+      @shellout.stub(:error!)
+      Guard::UI.stub(:info).with('Guard::Kitchen is stopping')
+      Mixlib::ShellOut.stub(:new).with("kitchen destroy", :timeout => 10800).and_return(@shellout)
+    end
+
+    it "runs kitchen destroy" do
+      Mixlib::ShellOut.should_receive(:new).with("kitchen destroy", :timeout => 10800).and_return(@shellout)
+      Guard::UI.should_receive(:info).with('Guard::Kitchen is stopping')
+      Guard::Notifier.should_receive(:notify).with('Kitchen destroyed', :title => 'test-kitchen', :image => :success)
       kitchen.stop
+    end
+
+    it "notifies on failure" do
+      @shellout.should_receive(:error!).and_raise(Mixlib::ShellOut::ShellCommandFailed)
+      Guard::UI.should_receive(:info).with('Guard::Kitchen is stopping')
+      Guard::Notifier.should_receive(:notify).with('Kitchen destroy failed', :title => 'test-kitchen', :image => :failed)
+      Guard::UI.should_receive(:info).with('Kitchen failed with Mixlib::ShellOut::ShellCommandFailed')
+      expect { kitchen.stop }.to throw_symbol(:task_has_failed)
     end
   end
 
