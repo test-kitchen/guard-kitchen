@@ -13,11 +13,11 @@ describe "Guard::Kitchen" do
       @shellout.stub(:run_command)
       @shellout.stub(:error!)
       Guard::UI.stub(:info).with('Guard::Kitchen is starting')
-      Mixlib::ShellOut.stub(:new).with("kitchen create").and_return(@shellout)
+      Mixlib::ShellOut.stub(:new).with("kitchen create", :timeout => 10800).and_return(@shellout)
     end
 
     it "runs kitchen create" do
-      Mixlib::ShellOut.should_receive(:new).with("kitchen create").and_return(@shellout)
+      Mixlib::ShellOut.should_receive(:new).with("kitchen create", :timeout => 10800).and_return(@shellout)
       Guard::UI.should_receive(:info).with('Guard::Kitchen is starting')
       Guard::Notifier.should_receive(:notify).with('Kitchen created', :title => 'test-kitchen', :image => :success)
       kitchen.start
@@ -33,10 +33,28 @@ describe "Guard::Kitchen" do
   end
 
   describe "stop" do
-    it "yells at you to delete manually" do
-      Guard::UI.should_receive(:warning).with('Guard::Kitchen cannot stop for you, due to strange bug.')
-      Guard::UI.should_receive(:warning).with("You likely want to run 'kitchen destroy'")
+    before(:each) do
+      @shellout = double('shellout')
+      @shellout.stub(:live_stream=).with(STDOUT)
+      @shellout.stub(:run_command)
+      @shellout.stub(:error!)
+      Guard::UI.stub(:info).with('Guard::Kitchen is stopping')
+      Mixlib::ShellOut.stub(:new).with("kitchen destroy", :timeout => 10800).and_return(@shellout)
+    end
+
+    it "runs kitchen destroy" do
+      Mixlib::ShellOut.should_receive(:new).with("kitchen destroy", :timeout => 10800).and_return(@shellout)
+      Guard::UI.should_receive(:info).with('Guard::Kitchen is stopping')
+      Guard::Notifier.should_receive(:notify).with('Kitchen destroyed', :title => 'test-kitchen', :image => :success)
       kitchen.stop
+    end
+
+    it "notifies on failure" do
+      @shellout.should_receive(:error!).and_raise(Mixlib::ShellOut::ShellCommandFailed)
+      Guard::UI.should_receive(:info).with('Guard::Kitchen is stopping')
+      Guard::Notifier.should_receive(:notify).with('Kitchen destroy failed', :title => 'test-kitchen', :image => :failed)
+      Guard::UI.should_receive(:info).with('Kitchen failed with Mixlib::ShellOut::ShellCommandFailed')
+      expect { kitchen.stop }.to throw_symbol(:task_has_failed)
     end
   end
 
@@ -56,14 +74,14 @@ describe "Guard::Kitchen" do
       @shellout.stub(:error!)
       Guard::UI.stub(:info).with('Guard::Kitchen is running all tests')
       Guard::Notifier.stub(:notify)
-      Mixlib::ShellOut.stub(:new).with("kitchen verify").and_return(@shellout)
+      Mixlib::ShellOut.stub(:new).with("kitchen verify", :timeout => 10800).and_return(@shellout)
     end
 
     it "runs kitchen verify" do
       Guard::UI.should_receive(:info).with('Guard::Kitchen is running all tests')
       Guard::UI.should_receive(:info).with('Kitchen verify succeeded')
       Guard::Notifier.should_receive(:notify).with('Kitchen verify succeeded', :title => 'test-kitchen', :image => :success)
-      Mixlib::ShellOut.should_receive(:new).with("kitchen verify").and_return(@shellout)
+      Mixlib::ShellOut.should_receive(:new).with("kitchen verify", :timeout => 10800).and_return(@shellout)
       kitchen.run_all
     end
 
@@ -89,7 +107,7 @@ describe "Guard::Kitchen" do
         Guard::UI.should_receive(:info).with("Guard::Kitchen is running suites: default")
         Guard::UI.should_receive(:info).with("Kitchen verify succeeded for: default")
         Guard::Notifier.stub(:notify).with("Kitchen verify succeeded for: default", :title => 'test-kitchen', :image => :success)
-        Mixlib::ShellOut.should_receive(:new).with("kitchen verify '(default)-.+' -p").and_return(@shellout)
+        Mixlib::ShellOut.should_receive(:new).with("kitchen verify '(default)-.+' -p", :timeout=>10800).and_return(@shellout)
         kitchen.run_on_changes(["test/integration/default/bats/foo.bats"])
       end
 
@@ -97,7 +115,7 @@ describe "Guard::Kitchen" do
         Guard::UI.should_receive(:info).with("Guard::Kitchen is running suites: default, monkey")
         Guard::UI.should_receive(:info).with("Kitchen verify succeeded for: default, monkey")
         Guard::Notifier.stub(:notify).with("Kitchen verify succeeded for: default, monkey", :title => 'test-kitchen', :image => :success)
-        Mixlib::ShellOut.should_receive(:new).with("kitchen verify '(default|monkey)-.+' -p").and_return(@shellout)
+        Mixlib::ShellOut.should_receive(:new).with("kitchen verify '(default|monkey)-.+' -p", :timeout=>10800).and_return(@shellout)
         kitchen.run_on_changes(["test/integration/default/bats/foo.bats","test/integration/monkey/bats/foo.bats"])
       end
     end
@@ -115,7 +133,7 @@ describe "Guard::Kitchen" do
         Guard::UI.should_receive(:info).with("Guard::Kitchen is running converge for all suites")
         Guard::UI.should_receive(:info).with("Kitchen converge succeeded")
         Guard::Notifier.stub(:notify).with("Kitchen converge succeeded", :title => 'test-kitchen', :image => :success)
-        Mixlib::ShellOut.should_receive(:new).with('kitchen converge').and_return(@shellout)
+        Mixlib::ShellOut.should_receive(:new).with('kitchen converge', :timeout => 10800).and_return(@shellout)
         kitchen.run_on_changes(["recipes/default.rb"])
       end
     end
