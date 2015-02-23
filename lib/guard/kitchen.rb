@@ -15,11 +15,11 @@
 #
 
 require "guard"
-require "guard/guard"
+require "guard/plugin"
 require "mixlib/shellout"
 
 module Guard
-  class Kitchen < Guard
+  class Kitchen < Plugin
     def start
       ::Guard::UI.info("Guard::Kitchen is starting")
       cmd = Mixlib::ShellOut.new("kitchen create", :timeout => 10800)
