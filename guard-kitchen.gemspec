@@ -7,10 +7,10 @@ Gem::Specification.new do |spec|
   spec.name          = "guard-kitchen"
   spec.version       = Guard::Kitchen::VERSION
   spec.authors       = ["Adam Jacob"]
-  spec.email         = ["adam@opscode.com"]
+  spec.email         = ["adam@chef.io"]
   spec.description   = %q{Guard plugin for test kitchen}
   spec.summary       = %q{Guard plugin for test kitchen}
-  spec.homepage      = "http://github.com/opscode/guard-kitchen"
+  spec.homepage      = "http://github.com/test-kitchen/guard-kitchen"
   spec.license       = "Apache 2"
 
   spec.files         = `git ls-files`.split($/)
@@ -20,6 +20,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "guard", "> 2.0.0"
   spec.add_dependency "mixlib-shellout"
-  spec.add_development_dependency "bundler", "~> 1.3"
+  spec.add_development_dependency "bundler"
   spec.add_development_dependency "rake"
 end
