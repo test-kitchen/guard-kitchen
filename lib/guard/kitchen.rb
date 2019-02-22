@@ -15,11 +15,17 @@
 #
 
 require "guard"
-require "guard/guard"
+require "guard/plugin"
 require "mixlib/shellout"
 
 module Guard
-  class Kitchen < Guard
+  class Kitchen < Plugin
+    def initialize(options = {})
+      super
+      # you can still access the watchers with options[:watchers]
+      # rest of the implementation...
+    end
+        
     def start
       ::Guard::UI.info("Guard::Kitchen is starting")
       cmd = Mixlib::ShellOut.new("kitchen create", :timeout => 10800)

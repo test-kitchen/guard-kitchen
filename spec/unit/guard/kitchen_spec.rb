@@ -1,6 +1,21 @@
 require 'spec_helper'
 require 'guard/kitchen'
 
+# Breaking change in guard 2.x for RSPEC caused by the fact
+# we didn't initialize guard's internals before Guard::Kitchen.new()
+# See https://github.com/guard/guard/issues/693
+#
+# The recommended way fix it is to install guard-compat and use that
+# instead of real guard for testing. That adds a development dependency,
+# so for now just monkey patch to stub out Guard::Plugin#initialize
+module Guard
+  class Plugin
+    def initialize(options={})
+    end
+  end
+end
+# End of Monkey Patch
+
 describe "Guard::Kitchen" do
   let(:kitchen) do
     Guard::Kitchen.new
