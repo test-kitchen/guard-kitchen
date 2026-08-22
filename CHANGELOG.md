@@ -26,7 +26,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The five near-identical shell-out blocks behind `start`, `stop`, `run_all` and
   both branches of `run_on_changes` are now a single private method. Behaviour,
   including every message and notification, is unchanged.
+- The README is rewritten for someone who has never used this gem. It now states
+  the prerequisites (Ruby, Test Kitchen and a driver, a cookbook with a
+  `kitchen.yml`), walks through a first run, and documents which kitchen command
+  each kind of change triggers.
 - Links point at `https` rather than `http`.
+
+### Removed
+
+- The README's Status section, which said the project was no longer under active
+  development and had no active maintainers. The claim is not supported by the
+  state of the repository.
 
 ### Fixed
 
