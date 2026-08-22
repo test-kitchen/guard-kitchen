@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["adam@chef.io"]
   spec.description   = %q{Guard plugin for test kitchen}
   spec.summary       = %q{Guard plugin for test kitchen}
-  spec.homepage      = "http://github.com/test-kitchen/guard-kitchen"
+  spec.homepage      = "https://github.com/test-kitchen/guard-kitchen"
   spec.license       = "Apache-2.0"
 
   spec.files         = `git ls-files`.split($/)
