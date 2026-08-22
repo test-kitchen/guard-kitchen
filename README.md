@@ -1,5 +1,7 @@
 # Guard::Kitchen
 
+[![Gem Version](https://badge.fury.io/rb/guard-kitchen.svg)](https://badge.fury.io/rb/guard-kitchen)
+
 Uses test-kitchen to help you develop Chef cookbooks.
 
 ## Installation
