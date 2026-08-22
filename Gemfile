@@ -1,8 +1,7 @@
 source 'https://rubygems.org'
 
 # Specify your gem's dependencies in guard-kitchen.gemspec
-gemspec
-
+gemspec development_group: :test
 group :test do
   gem "rake"
   gem "guard"
