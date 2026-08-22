@@ -20,5 +20,9 @@ Gem::Specification.new do |spec|
   spec.add_dependency "guard", "> 2.0.0"
   spec.add_dependency "mixlib-shellout"
   spec.add_development_dependency "rake"
-  spec.add_development_dependency "rspec"
+  spec.add_development_dependency "rspec", "~> 3.13"
+  # Lets the plugin be instantiated and its Guardfile template exercised
+  # without booting Guard itself.
+  spec.add_development_dependency "guard-compat", "~> 1.2"
+  spec.add_development_dependency "simplecov", "~> 0.22"
 end

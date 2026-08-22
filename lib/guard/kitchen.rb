@@ -17,6 +17,7 @@
 require "guard"
 require "guard/plugin"
 require "mixlib/shellout" unless defined?(Mixlib::ShellOut)
+require "guard/kitchen/version"
 
 module Guard
   class Kitchen < Plugin
