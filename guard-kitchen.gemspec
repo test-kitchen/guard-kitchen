@@ -25,4 +25,7 @@ Gem::Specification.new do |spec|
   # without booting Guard itself.
   spec.add_development_dependency "guard-compat", "~> 1.2"
   spec.add_development_dependency "simplecov", "~> 0.22"
+  spec.add_development_dependency "yard", "~> 0.9"
+  # Markdown provider so YARD renders the README and doc markup.
+  spec.add_development_dependency "kramdown", "~> 2.4"
 end

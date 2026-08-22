@@ -60,6 +60,18 @@ Style is checked with Cookstyle:
 bundle exec cookstyle --chefstyle
 ```
 
+### Documentation
+
+The public API is documented with [YARD](https://yardoc.org). Generate it into
+`doc/` with:
+
+```bash
+bundle exec rake doc
+```
+
+The task lists anything still undocumented. It is intentionally kept out of the
+default task and out of CI — missing docs should never fail a build.
+
 ## Status
 
 This software project is no longer under active development as it has no active maintainers. The software may continue to work for some or all use cases, but issues filed in GitHub will most likely not be triaged. If a new maintainer is interested in working on this project please come chat with us in #test-kitchen on Chef Community Slack.

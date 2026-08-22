@@ -1,0 +1,8 @@
+--output-dir doc
+--readme README.md
+--markup markdown
+--no-private
+--protected
+lib/**/*.rb
+-
+LICENSE
