@@ -22,4 +22,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "guard", "> 2.0.0"
   spec.add_dependency "mixlib-shellout"
   spec.add_development_dependency "rake"
+  spec.add_development_dependency "rspec"
 end
