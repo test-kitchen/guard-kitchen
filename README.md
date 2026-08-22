@@ -1,26 +1,36 @@
 # Guard::Kitchen
 
+[![Gem Version](https://badge.fury.io/rb/guard-kitchen.svg)](https://badge.fury.io/rb/guard-kitchen)
+
 Uses test-kitchen to help you develop Chef cookbooks.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'guard-kitchen'
+```ruby
+gem 'guard-kitchen'
+```
 
 And then execute:
 
-    $ bundle
+```bash
+bundle
+```
 
 Or install it yourself as:
 
-    $ gem install guard-kitchen
+```bash
+gem install guard-kitchen
+```
 
 ## Usage
 
 From within a cookbook:
 
-    $ guard init kitchen
+```bash
+guard init kitchen
+```
 
 ## Status
 
@@ -28,7 +38,7 @@ This software project is no longer under active development as it has no active 
 
 ## License
 
-```
+```text
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -41,3 +51,4 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ```
+

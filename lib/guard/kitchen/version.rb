@@ -1,8 +1,8 @@
-require 'guard'
-require 'guard/plugin'
+require "guard"
+require "guard/plugin"
 
 module Guard
   class Kitchen < Plugin
-    VERSION = "0.1.0"
+    VERSION = "0.1.0".freeze
   end
 end
