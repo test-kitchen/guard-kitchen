@@ -11,3 +11,7 @@ group :test do
   gem 'rb-fsevent', :require => false
   gem 'rb-fchange', :require => false
 end
+
+group :cookstyle do
+  gem "cookstyle"
+end

@@ -16,7 +16,7 @@
 
 require "guard"
 require "guard/plugin"
-require "mixlib/shellout"
+require "mixlib/shellout" unless defined?(Mixlib::ShellOut)
 
 module Guard
   class Kitchen < Plugin
@@ -25,34 +25,34 @@ module Guard
       # you can still access the watchers with options[:watchers]
       # rest of the implementation...
     end
-        
+
     def start
       ::Guard::UI.info("Guard::Kitchen is starting")
-      cmd = Mixlib::ShellOut.new("kitchen create", :timeout => 10800)
+      cmd = Mixlib::ShellOut.new("kitchen create", timeout: 10800)
       cmd.live_stream = STDOUT
       cmd.run_command
       begin
         cmd.error!
-        Notifier.notify('Kitchen created', :title => 'test-kitchen', :image => :success)
+        Notifier.notify("Kitchen created", title: "test-kitchen", image: :success)
       rescue Mixlib::ShellOut::ShellCommandFailed => e
-        Notifier.notify('Kitchen create failed', :title => 'test-kitchen', :image => :failed)
-        ::Guard::UI.info("Kitchen failed with #{e.to_s}")
+        Notifier.notify("Kitchen create failed", title: "test-kitchen", image: :failed)
+        ::Guard::UI.info("Kitchen failed with #{e}")
         throw :task_has_failed
       end
     end
 
     def stop
       ::Guard::UI.info("Guard::Kitchen is stopping")
-      cmd = Mixlib::ShellOut.new("kitchen destroy", :timeout => 10800)
+      cmd = Mixlib::ShellOut.new("kitchen destroy", timeout: 10800)
       cmd.live_stream = STDOUT
       cmd.run_command
       begin
-       cmd.error!
-       Notifier.notify('Kitchen destroyed', :title => 'test-kitchen', :image => :success)
+        cmd.error!
+        Notifier.notify("Kitchen destroyed", title: "test-kitchen", image: :success)
       rescue Mixlib::ShellOut::ShellCommandFailed => e
-        Notifier.notify('Kitchen destroy failed', :title => 'test-kitchen', :image => :failed)
-       ::Guard::UI.info("Kitchen failed with #{e.to_s}")
-       throw :task_has_failed
+        Notifier.notify("Kitchen destroy failed", title: "test-kitchen", image: :failed)
+        ::Guard::UI.info("Kitchen failed with #{e}")
+        throw :task_has_failed
       end
     end
 
@@ -63,16 +63,16 @@ module Guard
 
     def run_all
       ::Guard::UI.info("Guard::Kitchen is running all tests")
-      cmd = Mixlib::ShellOut.new("kitchen verify", :timeout => 10800)
+      cmd = Mixlib::ShellOut.new("kitchen verify", timeout: 10800)
       cmd.live_stream = STDOUT
       cmd.run_command
       begin
         cmd.error!
-        Notifier.notify('Kitchen verify succeeded', :title => 'test-kitchen', :image => :success)
+        Notifier.notify("Kitchen verify succeeded", title: "test-kitchen", image: :success)
         ::Guard::UI.info("Kitchen verify succeeded")
       rescue Mixlib::ShellOut::ShellCommandFailed => e
-        Notifier.notify('Kitchen verify failed', :title => 'test-kitchen', :image => :failed)
-        ::Guard::UI.info("Kitchen verify failed with #{e.to_s}")
+        Notifier.notify("Kitchen verify failed", title: "test-kitchen", image: :failed)
+        ::Guard::UI.info("Kitchen verify failed with #{e}")
         throw :task_has_failed
       end
     end
@@ -80,36 +80,36 @@ module Guard
     def run_on_changes(paths)
       suites = {}
       paths.each do |path|
-        if path =~ /test\/integration\/(.+?)\/.+/
+        if path =~ %r{test/integration/(.+?)/.+}
           suites[$1] = true
         end
       end
       if suites.length > 0
-        ::Guard::UI.info("Guard::Kitchen is running suites: #{suites.keys.join(', ')}")
-        cmd = Mixlib::ShellOut.new("kitchen verify '(#{suites.keys.join('|')})-.+' -p", :timeout => 10800)
+        ::Guard::UI.info("Guard::Kitchen is running suites: #{suites.keys.join(", ")}")
+        cmd = Mixlib::ShellOut.new("kitchen verify '(#{suites.keys.join("|")})-.+' -p", timeout: 10800)
         cmd.live_stream = STDOUT
         cmd.run_command
         begin
           cmd.error!
-          Notifier.notify("Kitchen verify succeeded for: #{suites.keys.join(', ')}", :title => 'test-kitchen', :image => :success)
-          ::Guard::UI.info("Kitchen verify succeeded for: #{suites.keys.join(', ')}")
+          Notifier.notify("Kitchen verify succeeded for: #{suites.keys.join(", ")}", title: "test-kitchen", image: :success)
+          ::Guard::UI.info("Kitchen verify succeeded for: #{suites.keys.join(", ")}")
         rescue Mixlib::ShellOut::ShellCommandFailed => e
-          Notifier.notify("Kitchen verify failed for: #{suites.keys.join(', ')}", :title => 'test-kitchen', :image => :failed)
-          ::Guard::UI.info("Kitchen verify failed with #{e.to_s}")
+          Notifier.notify("Kitchen verify failed for: #{suites.keys.join(", ")}", title: "test-kitchen", image: :failed)
+          ::Guard::UI.info("Kitchen verify failed with #{e}")
           throw :task_has_failed
         end
       else
         ::Guard::UI.info("Guard::Kitchen is running converge for all suites")
-        cmd = Mixlib::ShellOut.new("kitchen converge", :timeout => 10800)
+        cmd = Mixlib::ShellOut.new("kitchen converge", timeout: 10800)
         cmd.live_stream = STDOUT
         cmd.run_command
         begin
           cmd.error!
-          Notifier.notify("Kitchen converge succeeded", :title => 'test-kitchen', :image => :success)
+          Notifier.notify("Kitchen converge succeeded", title: "test-kitchen", image: :success)
           ::Guard::UI.info("Kitchen converge succeeded")
         rescue Mixlib::ShellOut::ShellCommandFailed => e
-          Notifier.notify("Kitchen converge failed", :title => 'test-kitchen', :image => :failed)
-          ::Guard::UI.info("Kitchen converge failed with #{e.to_s}")
+          Notifier.notify("Kitchen converge failed", title: "test-kitchen", image: :failed)
+          ::Guard::UI.info("Kitchen converge failed with #{e}")
           throw :task_has_failed
         end
       end

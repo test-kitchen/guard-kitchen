@@ -5,6 +5,7 @@ require 'guard/kitchen/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "guard-kitchen"
+  spec.required_ruby_version = ">= 3.1"
   spec.version       = Guard::Kitchen::VERSION
   spec.authors       = ["Adam Jacob"]
   spec.email         = ["adam@chef.io"]
