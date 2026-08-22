@@ -32,6 +32,34 @@ From within a cookbook:
 guard init kitchen
 ```
 
+## Development
+
+Install the dependencies and run the test suite:
+
+```bash
+bundle install
+bundle exec rake test
+```
+
+The suite is RSpec, lives under `spec/`, and runs entirely offline — every
+`kitchen` invocation is stubbed, so nothing spins up a VM. It uses
+[guard-compat](https://github.com/guard/guard-compat) to exercise the plugin
+and its bundled Guardfile template without booting Guard itself, and enforces
+line and branch coverage thresholds through SimpleCov.
+
+To run a single file or example:
+
+```bash
+bundle exec rspec spec/unit/guard/kitchen_spec.rb
+bundle exec rspec spec/unit/guard/kitchen_spec.rb:42
+```
+
+Style is checked with Cookstyle:
+
+```bash
+bundle exec cookstyle --chefstyle
+```
+
 ## Status
 
 This software project is no longer under active development as it has no active maintainers. The software may continue to work for some or all use cases, but issues filed in GitHub will most likely not be triaged. If a new maintainer is interested in working on this project please come chat with us in #test-kitchen on Chef Community Slack.
