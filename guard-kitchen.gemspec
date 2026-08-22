@@ -1,12 +1,12 @@
 # coding: utf-8
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'guard/kitchen/version'
+# Read the version without loading the library: version.rb requires guard,
+# which is not available while bundler is evaluating this gemspec.
+version = File.read(File.expand_path('lib/guard/kitchen/version.rb', __dir__))[/VERSION\s*=\s*["']([^"']+)["']/, 1]
 
 Gem::Specification.new do |spec|
   spec.name          = "guard-kitchen"
   spec.required_ruby_version = ">= 3.1"
-  spec.version       = Guard::Kitchen::VERSION
+  spec.version       = version
   spec.authors       = ["Adam Jacob"]
   spec.email         = ["adam@chef.io"]
   spec.description   = %q{Guard plugin for test kitchen}
